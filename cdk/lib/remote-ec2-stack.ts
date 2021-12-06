@@ -33,13 +33,9 @@ export class RemoteEc2Stack extends Stack {
     const role = new iam.Role(this, 'RemoteEc2Role', {
       assumedBy: new iam.ServicePrincipal('ec2.amazonaws.com'),
     });
-    role.addManagedPolicy(
-      iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonSSMManagedInstanceCore')
-    );
-
     // AWS Systems Manager Agent (SSM Agent) is preinstalled on Windows Server 2019
     role.addManagedPolicy(
-      iam.ManagedPolicy.fromAwsManagedPolicyName('CloudWatchAgentServerRole')
+      iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonSSMManagedInstanceCore')
     );
 
     const ami = new ec2.WindowsImage(
