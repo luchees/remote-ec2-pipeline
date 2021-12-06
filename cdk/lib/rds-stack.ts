@@ -48,7 +48,7 @@ export class RdsStack extends Stack {
     });
     diskAlarm.addOkAction(new cw_actions.SnsAction(props.alarmTopic));
     diskAlarm.addAlarmAction(new cw_actions.SnsAction(props.alarmTopic));
-    const memAlarm = new cw.Alarm(this, 'RdsDiskAlarm', {
+    const memAlarm = new cw.Alarm(this, 'RdsMemAlarm', {
       metric: db.metricFreeableMemory(),
       evaluationPeriods: 1,
       alarmDescription: 'Alarm for RDS freeable memory <4000',
