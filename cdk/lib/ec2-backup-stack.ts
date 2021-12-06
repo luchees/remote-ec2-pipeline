@@ -27,13 +27,13 @@ export class EC2BackupStack extends Stack {
     });
     const rule = new backup.BackupPlanRule({
       backupVault: vault,
-      completionWindow: Duration.hours(1),
+      completionWindow: Duration.hours(2),
       deleteAfter: Duration.days(30),
       scheduleExpression: Schedule.cron({
         hour: '2',
         minute: '0',
       }),
-      startWindow: Duration.hours(2),
+      startWindow: Duration.hours(1),
     });
     const plan = new backup.BackupPlan(this, 'TwoHourlyMonthlyRetentionPlan', {
       backupPlanRules: [rule],
