@@ -34,7 +34,7 @@ export class RemoteEc2Stack extends Stack {
 
     securityGroup.addIngressRule(
       ec2.Peer.anyIpv4(),
-      ec2.Port.tcp(3389),
+      ec2.Port.tcp(5432),
       'Allow RDS Access'
     );
     const role = new iam.Role(this, 'RemoteEc2Role', {
@@ -68,8 +68,7 @@ export class RemoteEc2Stack extends Stack {
       autoScalingGroupName: `${prefix}-asg`,
       desiredCapacity: 1,
       groupMetrics: [as.GroupMetrics.all()],
-      instanceMonitoring: as.Monitoring.BASIC,
-      //  notifications : [{topic: }],
+      instanceMonitoring: as.Monitoring.BASIC, // Basic is more then enough
       minCapacity: 0,
       maxCapacity: 1,
       associatePublicIpAddress: true,

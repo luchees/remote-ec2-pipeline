@@ -43,14 +43,15 @@ export class RdsStack extends Stack {
     db.connections.allowFrom(
       {
         connections: new ec2.Connections({
-          securityGroups: [
-            ec2.SecurityGroup.fromLookupByName(
-              this,
-              'RDSRemoteEc2SecurityGroup',
-              'RemoteEc2SecurityGroup',
-              props.vpc
-            ),
-          ],
+          peer: ec2.Peer.ipv4(props.vpc.vpcCidrBlock), // --> not ideal
+          //   securityGroups: [
+          //     ec2.SecurityGroup.fromLookupByName(
+          //       this,
+          //       'RDSRemoteEc2SecurityGroup',
+          //       'RemoteEc2SecurityGroup',
+          //       props.vpc
+          //     ),
+          //   ],
         }),
       },
       ec2.Port.tcp(postgresDbPort)
