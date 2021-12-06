@@ -37,11 +37,14 @@ export class RemoteEc2Stack extends Stack {
       iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonSSMManagedInstanceCore')
     );
 
+    // AWS Systems Manager Agent (SSM Agent) is preinstalled on Windows Server 2019
+    role.addManagedPolicy(
+      iam.ManagedPolicy.fromAwsManagedPolicyName('CloudWatchAgentServerRole')
+    );
+
     const ami = new ec2.WindowsImage(
       ec2.WindowsVersion.WINDOWS_SERVER_2019_ENGLISH_FULL_BASE
     );
-
-    // scheduled termination after workhours
 
     const asg = new as.AutoScalingGroup(this, 'RemoteEc2ASG', {
       vpc: props.vpc,
@@ -68,6 +71,8 @@ export class RemoteEc2Stack extends Stack {
       maxCapacity: 1,
       associatePublicIpAddress: true,
     });
+
+    // need cloudwatch agent installed for disk and mem metrics/ usage metrics
 
     asg.scaleOnSchedule('BootAsgWorkhourSchedule', {
       schedule: as.Schedule.cron({

@@ -42,10 +42,20 @@ export class RdsStack extends Stack {
     const diskAlarm = new cw.Alarm(this, 'RdsDiskAlarm', {
       metric: db.metricFreeStorageSpace(),
       evaluationPeriods: 1,
-      alarmDescription: 'Alarm for RDS Free Storage Space >400',
-      threshold: 400,
+      alarmDescription: 'Alarm for RDS Free Storage Space <100',
+      threshold: 100,
+      comparisonOperator: cw.ComparisonOperator.LESS_THAN_OR_EQUAL_TO_THRESHOLD,
     });
     diskAlarm.addOkAction(new cw_actions.SnsAction(props.alarmTopic));
     diskAlarm.addAlarmAction(new cw_actions.SnsAction(props.alarmTopic));
+    const memAlarm = new cw.Alarm(this, 'RdsDiskAlarm', {
+      metric: db.metricFreeableMemory(),
+      evaluationPeriods: 1,
+      alarmDescription: 'Alarm for RDS freeable memory <4000',
+      threshold: 4000,
+      comparisonOperator: cw.ComparisonOperator.LESS_THAN_OR_EQUAL_TO_THRESHOLD,
+    });
+    memAlarm.addOkAction(new cw_actions.SnsAction(props.alarmTopic));
+    memAlarm.addAlarmAction(new cw_actions.SnsAction(props.alarmTopic));
   }
 }

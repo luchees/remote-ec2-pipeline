@@ -10,14 +10,14 @@ export class AdStack extends Stack {
   readonly ad: directoryservice.CfnSimpleAD;
   constructor(scope: Construct, id: string, props: ExtStackProps) {
     super(scope, id, props);
-    // ec2
+    // ad
 
     this.ad = new directoryservice.CfnSimpleAD(this, 'RemoteEc2SimpleAD', {
       name: 'bi.devops.mediagenix.tv',
-      password: 'superSecret', // change in postdeploy!!!!!!
+      password: 'superSecret', // change in a postdeploy or similar script!!!!!!
       size: 'Small',
       vpcSettings: {
-        subnetIds: props.vpc.privateSubnets.map((subnet) => subnet.subnetId),
+        subnetIds: props.vpc.publicSubnets.map((subnet) => subnet.subnetId),
         vpcId: props.vpc.vpcId,
       },
       createAlias: false,

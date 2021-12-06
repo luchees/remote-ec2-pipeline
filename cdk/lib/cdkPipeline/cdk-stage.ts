@@ -39,9 +39,9 @@ export class RemoteEc2Stage extends Stage {
         backup: '2HourlyMonthlyRetention',
       },
     });
-    new AdStack(this, 'Ec2AdStack', {
-      vpc: vpcStack.vpc,
-      tags: props.tags,
-    });
+    // new AdStack(this, 'Ec2AdStack', {
+    //   vpc: vpcStack.vpc,
+    //   tags: props.tags,
+    // });
   }
 }
