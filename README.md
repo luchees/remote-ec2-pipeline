@@ -29,6 +29,7 @@ Codestar connection with your preferred Git repository. Set this in the `remote-
    - Monitor Memory and Disk space using Cloudwatch agent and setup Alarms
    - Attach roles to the instance so it is able to connect to Cloudwatch and SSM
    - Use a loadbalancer in front of the ASG and use loadbalancer DNS as A record in the Route53 to point to the correct domain name
+   - Manage Users with AD
 
 2. VPC with public and isolated subnet
 
@@ -43,6 +44,7 @@ Codestar connection with your preferred Git repository. Set this in the `remote-
    - Allow connection with EC2 instance security group over Default Postgres port ( 5432 )
    - Add Alarms to monitor DiskSize and Memory usage.
    - Make sure RDS is created in Isolated Subnet
+   - Manage Users with AD
 
 4. Active Directory
 
