@@ -33,7 +33,7 @@ export class CdkPipeline extends Stack {
           'cd cdk',
           'npm install',
           'npm run build',
-          'npm cdk -- synth',
+          'npm run cdk -- synth',
         ],
         primaryOutputDirectory: 'cdk/cdk.out',
       }),
