@@ -29,7 +29,12 @@ export class CdkPipeline extends Stack {
             connectionArn: REMOTE_DESKTOP_CONFIG.codestarConnection,
           }
         ),
-        commands: ['cd cdk', 'npm install', 'npm run build', 'npm cdk synth'],
+        commands: [
+          'cd cdk',
+          'npm install',
+          'npm run build',
+          'npm cdk -- synth',
+        ],
         primaryOutputDirectory: 'cdk/cdk.out',
       }),
       // codeBuildDefaults: {
