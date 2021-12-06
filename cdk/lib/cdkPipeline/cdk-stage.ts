@@ -39,6 +39,7 @@ export class RemoteEc2Stage extends Stage {
         backup: '2HourlyMonthlyRetention',
       },
     });
+    // The AD stack wont work for sure
     // new AdStack(this, 'Ec2AdStack', {
     //   vpc: vpcStack.vpc,
     //   tags: props.tags,

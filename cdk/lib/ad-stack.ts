@@ -17,7 +17,7 @@ export class AdStack extends Stack {
       password: 'superSecret', // change in a postdeploy or similar script!!!!!!
       size: 'Small',
       vpcSettings: {
-        subnetIds: props.vpc.publicSubnets.map((subnet) => subnet.subnetId),
+        subnetIds: props.vpc.publicSubnets.map((subnet) => subnet.subnetId), // Public???
         vpcId: props.vpc.vpcId,
       },
       createAlias: false,
