@@ -21,6 +21,7 @@ export class RdsStack extends Stack {
     const credentials = rds.Credentials.fromGeneratedSecret('postgres', {
       secretName: `${prefix}-credentials`,
     });
+    const postgresDbPort = 5432;
     const db = new rds.DatabaseInstance(this, 'DbInstance', {
       engine: rds.DatabaseInstanceEngine.postgres({
         version: rds.PostgresEngineVersion.VER_13_4,
@@ -28,6 +29,7 @@ export class RdsStack extends Stack {
       vpc: props.vpc,
       vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_ISOLATED },
       credentials,
+      port: postgresDbPort,
       storageEncrypted: true,
       allocatedStorage: 500,
       //   domain: props.ad.name,
@@ -37,6 +39,22 @@ export class RdsStack extends Stack {
         ec2.InstanceSize.MEDIUM
       ),
     });
+    // allow connections from ec2 securitygroup
+    db.connections.allowFrom(
+      {
+        connections: new ec2.Connections({
+          securityGroups: [
+            ec2.SecurityGroup.fromLookupByName(
+              this,
+              'RDSRemoteEc2SecurityGroup',
+              'RemoteEc2SecurityGroup',
+              props.vpc
+            ),
+          ],
+        }),
+      },
+      ec2.Port.tcp(postgresDbPort)
+    );
 
     // alarms
     const diskAlarm = new cw.Alarm(this, 'RdsDiskAlarm', {

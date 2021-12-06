@@ -20,6 +20,7 @@ export class RemoteEc2Stack extends Stack {
       this,
       'RemoteEc2SecurityGroup',
       {
+        securityGroupName: 'RemoteEc2SecurityGroup',
         vpc: props.vpc,
         description: 'Allow RDP (3389)',
         allowAllOutbound: true,
@@ -29,6 +30,12 @@ export class RemoteEc2Stack extends Stack {
       ec2.Peer.anyIpv4(),
       ec2.Port.tcp(3389),
       'Allow RDP Access'
+    );
+
+    securityGroup.addIngressRule(
+      ec2.Peer.anyIpv4(),
+      ec2.Port.tcp(3389),
+      'Allow RDS Access'
     );
     const role = new iam.Role(this, 'RemoteEc2Role', {
       assumedBy: new iam.ServicePrincipal('ec2.amazonaws.com'),
